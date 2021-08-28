@@ -75,7 +75,7 @@ export default {
       align-items: flex-start;
       padding-bottom: 30px;
       padding-top: 30px;
-      border-bottom: 1px solid $white;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
       cursor: pointer;
       transition: 0.3s all;
       @include breakpoint(nb){
@@ -89,7 +89,7 @@ export default {
       }
       .time{
         width:210px;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 300;
         color: $white;
       }
@@ -103,16 +103,14 @@ export default {
           margin-top: 10px;
         }
         .title{
-          font-size: 25px;
+          font-size: 20px;
           letter-spacing: 1px;
           margin-bottom: 5px;
           color: $white;
-          @include breakpoint(m1){
-            font-size: 22px;
-          }
+          font-weight: 300;
         }
         .smallTitle{
-          font-weight: 300;
+          font-weight: 100;
           font-size: 16px;
           color: $white;
           letter-spacing: 1px;

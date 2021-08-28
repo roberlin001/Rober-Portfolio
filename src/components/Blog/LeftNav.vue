@@ -84,10 +84,10 @@ export default {
     font-size: 30px;
     font-weight: 400;
     color: $white;
-    letter-spacing: 1px;
+    letter-spacing: 3px;
   }
   ul{
-    margin-top: 40px;
+    margin-top: 20px;
     @include breakpoint(nb){
       margin-top: 0;
       white-space: nowrap;
@@ -95,7 +95,7 @@ export default {
     }
     li{
       display: block;
-      margin-top: 15px;
+      margin-top: 18px;
       @include breakpoint(nb){
         display: inline-block;
         width: 120px;
@@ -103,11 +103,9 @@ export default {
       }
       a{
         color: $white;
-        font-weight: 300;
+        font-weight: 100;
         font-size: 16px;
         display: block;
-        padding: 4px 20px;
-        border-left:1px solid $white;
         letter-spacing: 1px;
         transition: 0.2s all;
         @include breakpoint(nb){
@@ -116,14 +114,13 @@ export default {
           text-align: center;
         }
         &:hover{
-          background-color: $white;
-          color: $gray;
+          text-decoration: underline;
         }
       }
     }
     .current{
-      background-color: $white;
-      color: $gray;
+      text-decoration: underline;
+      font-weight: 400;
     }
   }
 }
