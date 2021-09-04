@@ -16,8 +16,9 @@ export default{
                 return state.blogListArr
             }
         });
-
-        console.log(state.categoryArr);
+    },
+    categoryKind(state,categoryKind){
+        state.categoryKind = categoryKind;
     },
     handIsLoad(state,bool){
         state.isLoad = bool
@@ -30,5 +31,5 @@ export default{
     },
     handIsAboutTrue(state,bool){
         state.isAbout = bool
-    }
+    },
 }

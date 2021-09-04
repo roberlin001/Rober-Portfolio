@@ -2,8 +2,6 @@
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 import FadeBg from '@/components/FadeBg.vue';
-import {useStore} from 'vuex'
-import { onMounted } from '@vue/runtime-core';
 export default {
   components:{
     Header,
@@ -24,4 +22,8 @@ export default {
 <style lang="scss">
 @import '~@/assets/scss/_mixins.scss';
 @import '~@/assets/scss/_rest.scss';
+button{
+  position: relative;
+  z-index: 5;
+}
 </style>

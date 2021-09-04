@@ -18,5 +18,8 @@ export default{
     },
     categoryArr(state){
         return state.categoryArr;
-    }
+    },
+    categoryKind(state){
+        return state.categoryKind;
+    },
 };

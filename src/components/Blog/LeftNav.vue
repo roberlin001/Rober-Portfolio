@@ -1,60 +1,66 @@
 <script>
-import { ref } from '@vue/reactivity';
-import {useStore} from 'vuex'
+import { computed, ref } from '@vue/reactivity';
+import {useStore} from 'vuex';
+import {useRouter} from 'vue-router';
 export default {
   setup(){
     const store = useStore();
     const tagParent = ref(null);
     const classIdx = ref(0);
-    const category = ref('');
+    const router = useRouter();
 
-    const categoryArr = ()=>{
+    const categoryArr = computed(()=>{
       return store.getters.categoryArr;
-    };
+    });
+
+    const categoryKind = computed(()=>{
+      return store.getters.categoryKind;
+    });
 
     const handAll = (classNum)=>{
-      // alert('handAll')
       classIdx.value = classNum;
-      category.value="";
-      store.dispatch('handCategoryArr',category.value);
+      store.dispatch('categoryKind','');
+      store.dispatch('handCategoryArr',categoryKind.value);
+      router.push({path:`/blog`});
+      
     };
 
     const handKnowledge = (classNum)=>{
-      // alert('handKnowledge')
-      classIdx.value = classNum;
-      category.value="網頁知識";
-      store.dispatch('handCategoryArr',category.value);
+        router.push({path:"/blog"});
+        classIdx.value = classNum;
+        store.dispatch('categoryKind','網頁知識');
+        store.dispatch('handCategoryArr',categoryKind.value);
     };
 
     const handShare = (classNum)=>{
-      // alert('handShare');
+      router.push({path:"/blog"});
       classIdx.value = classNum;
-      category.value="網頁技術分享";
-      store.dispatch('handCategoryArr',category.value);
+      store.dispatch('categoryKind','網頁技術分享');
+      store.dispatch('handCategoryArr',categoryKind.value);
     }
 
     const handMovie = (classNum)=>{
-      // alert('handMovie');
+      router.push({path:"/blog"});
       classIdx.value = classNum;
-      category.value="電影哈拉";
-      store.dispatch('handCategoryArr',category.value);
+      store.dispatch('categoryKind','電影哈拉');
+      store.dispatch('handCategoryArr',categoryKind.value);
     }
 
     const handNBA = (classNum)=>{
-      // alert('handNBA');
+      router.push({path:'/blog'});
       classIdx.value = classNum;
-      category.value="NBA反指標";
-      store.dispatch('handCategoryArr',category.value);
+      store.dispatch('categoryKind','NBA反指標');
+      store.dispatch('handCategoryArr',categoryKind.value);
     }
 
     const handLife = (classNum)=>{
-      // alert('handLife');
+      router.push({path:'/blog'});
       classIdx.value = classNum;
-      category.value="生活來打屁";
-      store.dispatch('handCategoryArr',category.value);
+      store.dispatch('categoryKind','生活來打屁');
+      store.dispatch('handCategoryArr',categoryKind.value);
     }
 
-    return{handAll,handKnowledge,handShare,handMovie,handNBA,handLife,classIdx,categoryArr}
+    return{handAll,handKnowledge,handShare,handMovie,handNBA,handLife,classIdx}
   }
 }
 </script>

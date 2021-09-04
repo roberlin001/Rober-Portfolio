@@ -4,5 +4,6 @@ export default {
     portfolioArr:[],
     isAbout:window.location.href.includes('about') ? true : false,
     blogListArr:[],
-    categoryArr:[]
+    categoryArr:[],
+    categoryKind:'',
 }

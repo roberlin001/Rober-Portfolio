@@ -10,13 +10,14 @@ export default {
         const isAbout = computed(()=>{
             return store.getters.isAbout
         });
-
+        
         const isMobileMenu = computed(()=>{
             return store.getters.isMobileMenu;
         });
 
         const handMobileMenu = ()=>{
-            store.dispatch('handIsMenu')
+            store.dispatch('handIsMenu');
+            
         };
 
 

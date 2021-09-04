@@ -1,23 +1,36 @@
 <script>
 import { computed, onMounted } from '@vue/runtime-core';
 import {useStore} from 'vuex';
+import {useRouter} from 'vue-router';
 export default {
   setup(){
     const store = useStore();
+    const router = useRouter()
   
     const categoryArr = computed(()=>{
       return store.getters.categoryArr;
     });
 
+    const categoryKind = computed(()=>{
+      return store.getters.categoryKind;
+    });
+    
+
     const blogList = ()=>{
-      store.dispatch('handBlogList');
+      store.dispatch('handBlogList').then(()=>{
+        store.dispatch('handCategoryArr',categoryKind.value);
+      })
     };
 
     onMounted(()=>{
       blogList();
     });
 
-    return {categoryArr}
+    const linkArticleid = (id)=>{
+      router.push({path:`/blog/article/${id}`})
+    };
+
+    return {categoryArr,linkArticleid}
   }
 }
 </script>
@@ -27,7 +40,7 @@ export default {
   <div class="listContainer">
     <a href="#" class="addBtn" style="display:none;">新增</a>
     <div class="article">
-      <div v-for="item in categoryArr" :key="item.seq" class="list">
+      <div v-for="item in categoryArr" @click="linkArticleid(item.id)" :key="item.seq"  class="list">
         <div class="time">{{item.time}}</div>
         <div class="info">
           <div class="title">{{item.title}}</div>

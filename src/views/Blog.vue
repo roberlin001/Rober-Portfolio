@@ -1,10 +1,11 @@
 <script>
 import LeftNav from '@/components/Blog/LeftNav.vue';
-import ListBlog from '@/components/Blog/ListBlog.vue';
 export default {
     components:{
         LeftNav,
-        ListBlog
+    },
+    setup(){
+      return{}
     }
 }
 </script>
@@ -12,7 +13,7 @@ export default {
 <template>
   <div class="blogContainer">
     <LeftNav />
-    <ListBlog />
+    <router-view></router-view>
   </div>
 </template>
 

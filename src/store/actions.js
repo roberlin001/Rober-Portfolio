@@ -6,10 +6,14 @@ export default {
         commit('handCategoryArr',strCategory)
     },
     handBlogList({commit}){
-        axios.get(window.location.href.replace(window.location.pathname,"")+'/api/blogList.json')
+        return axios.get(window.location.href.replace(window.location.pathname,"")+'/api/blogList.json')
         .then((res)=>{
             commit('handBlogList',res.data);
+            return res.data
         })
+    },
+    categoryKind({commit},kind){
+        commit('categoryKind',kind)
     },
     handInit({commit}){
         return axios.get(window.location.href+'api/portfolio.json')
@@ -33,5 +37,5 @@ export default {
     handIsAboutTrue(context){
         const bool = true;
         context.commit('handIsAboutTrue',bool)
-    }
+    },
 };
