@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 import Blog from '../views/Blog.vue';
+import Login from '../views/Login.vue';
+import EditBlog from '../views/EditBlog.vue';
 import Article from '../components/Blog/ArticleId.vue'
 import ListBlog from '../components/Blog/ListBlog.vue';
 const routes = [
@@ -29,6 +31,16 @@ const routes = [
         component:Article
       }
     ]
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/editBlog',
+    name: 'EditBlog',
+    component: EditBlog
   },
   // {
   //   path: '/about',

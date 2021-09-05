@@ -5,7 +5,7 @@ import {useRouter} from 'vue-router';
 export default {
   setup(){
     const store = useStore();
-    const router = useRouter()
+    const router = useRouter();
   
     const categoryArr = computed(()=>{
       return store.getters.categoryArr;
@@ -19,7 +19,7 @@ export default {
     const blogList = ()=>{
       store.dispatch('handBlogList').then(()=>{
         store.dispatch('handCategoryArr',categoryKind.value);
-      })
+      });
     };
 
     onMounted(()=>{
@@ -40,7 +40,7 @@ export default {
   <div class="listContainer">
     <a href="#" class="addBtn" style="display:none;">新增</a>
     <div class="article">
-      <div v-for="item in categoryArr" @click="linkArticleid(item.id)" :key="item.seq"  class="list">
+      <div v-for="item in categoryArr" @click="linkArticleid(item.id)" :key="item.id"  class="list">
         <div class="time">{{item.time}}</div>
         <div class="info">
           <div class="title">{{item.title}}</div>
@@ -59,12 +59,8 @@ export default {
 <style scoped lang="scss">
 @import '~@/assets/scss/_mixins.scss';
 .listContainer{
-  max-width: 940px;
-  margin-left: 130px;
-  width: calc(100% - 130px);
+  width: $full;
   @include breakpoint(nb){
-    width: $full;
-    margin-left: 0;
     margin-top: 30px;
   }
   .addBtn{
@@ -96,6 +92,7 @@ export default {
       }
       &:hover{
         border-bottom: 10px solid $white;
+        padding-bottom: 21px;
       }
       &:first-child{
         padding-top: 0;

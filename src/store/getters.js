@@ -1,5 +1,3 @@
-import state from "./state";
-
 export default{
     isLoad(state){
         return state.isLoad;
@@ -22,4 +20,10 @@ export default{
     categoryKind(state){
         return state.categoryKind;
     },
+    blogData(state){
+        return state.blogData;
+    },
+    classIdx(state){
+        return state.classIdx;
+    }
 };

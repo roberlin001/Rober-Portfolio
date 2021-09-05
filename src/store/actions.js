@@ -1,12 +1,22 @@
 import axios from "axios";
 
 export default {
+    blogData({commit},id){
+        return axios.get(`http://localhost:3000/datas/${id}`).then((res)=>{
+            commit('blogData',res.data);
+        }).catch((err)=>{
+            return err.response.status;
+        });
+    },
+    classIdx({commit},num){
+        commit('classIdx',num)
+    },
     handCategoryArr({commit},category){
         const strCategory = category
         commit('handCategoryArr',strCategory)
     },
     handBlogList({commit}){
-        return axios.get(window.location.href.replace(window.location.pathname,"")+'/api/blogList.json')
+        return axios.get('http://localhost:3000/datas')
         .then((res)=>{
             commit('handBlogList',res.data);
             return res.data
@@ -23,7 +33,6 @@ export default {
         })
     },
     handIsLoad({commit},bool){
-        // console.log(bool)
         commit('handIsLoad',bool)
     },
     handIsMenu(context){

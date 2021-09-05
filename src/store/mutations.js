@@ -1,12 +1,16 @@
-import state from "./state";
-
 export default{
     init(state,payload){
         state.portfolioArr = payload.portfolio;
     },
+    blogData(state,payload){
+        state.blogData = payload
+    },
+    classIdx(state,num){
+        state.classIdx = num;
+    },
     handBlogList(state,payload){
-        state.categoryArr = payload.datas;
-        state.blogListArr = payload.datas;
+        state.categoryArr = payload;
+        state.blogListArr = payload;
     },
     handCategoryArr(state,strCategory){
         state.categoryArr = state.blogListArr.filter((item)=>{

@@ -11,25 +11,23 @@ export default {
 </script>
 
 <template>
-  <div class="blogContainer">
     <LeftNav />
-    <router-view></router-view>
-  </div>
+    <div class="blogContainer">
+      <router-view></router-view>
+    </div>
 </template>
 
 <style scoped lang="scss">
   @import '~@/assets/scss/_mixins.scss';
   .blogContainer{
-    max-width: 1290px;
+    max-width: 960px;
     box-sizing: border-box;
-    padding: 60px 30px;
+    padding:30px 30px 60px 30px;
     position: relative;
     z-index: 3;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    margin: 0 auto;
     @include breakpoint(m){
-      padding: 30px;
+      padding:0 30px 60px 30px;
     }
     @include breakpoint(nb){
       flex-wrap: wrap;

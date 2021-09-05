@@ -6,4 +6,6 @@ export default {
     blogListArr:[],
     categoryArr:[],
     categoryKind:'',
+    blogData:{},
+    classIdx:0,
 }

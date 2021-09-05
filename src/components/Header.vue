@@ -1,11 +1,24 @@
 <script>
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {useStore} from 'vuex';
-import { computed, watch } from '@vue/runtime-core';
+import { computed, onMounted, ref, watch, watchEffect } from '@vue/runtime-core';
 export default {
     setup(){
         const store = useStore();
         const router = useRouter();
+        const route = useRoute();
+        const navNum = ref(0);
+
+        
+        watch(route,(routePath)=>{
+            if(routePath.path === '/'){
+                navNum.value = 0;
+            }else if(routePath.path === '/about'){
+                navNum.value = 1;
+            }else if(routePath.path === '/blog' || routePath.path.includes('/article')){
+                navNum.value = 2;
+            }
+        });
 
         const isAbout = computed(()=>{
             return store.getters.isAbout
@@ -15,31 +28,48 @@ export default {
             return store.getters.isMobileMenu;
         });
 
+        const classIdx = computed(()=>{
+            return store.getters.classIdx;
+        });
+
         const handMobileMenu = ()=>{
             store.dispatch('handIsMenu');
-            
         };
+
+        const categoryKind = computed(()=>{
+            return store.getters.categoryKind;
+        });
+
+
 
 
         const gotoHomeRouter = ()=>{
+            store.dispatch('categoryKind','');
             router.push({path:`/`});
             store.dispatch('handIsAboutFalse');
+            store.dispatch('classIdx',0);
             if(window.innerWidth < 600){
                 store.dispatch('handIsMenu');
             };
         };
 
         const gotoBlogRouter = ()=>{
-            router.push({path:`/blog`});
+            store.dispatch('categoryKind','');
             store.dispatch('handIsAboutFalse');
+            router.push({path:`/blog`});
+            if(route.path !== '/blog'){
+                store.dispatch('classIdx',0);
+            }
             if(window.innerWidth < 600){
                 store.dispatch('handIsMenu');
             };
         };
 
         const gotoAboutRouter = ()=>{
+            store.dispatch('categoryKind','');
             router.push({path:`/about`});
             store.dispatch('handIsAboutTrue');
+            store.dispatch('classIdx',0);
             if(window.innerWidth < 600){
                 store.dispatch('handIsMenu');
             }
@@ -52,7 +82,7 @@ export default {
                 isAbout,
                 isMobileMenu,
                 handMobileMenu,
-                gotoBlogRouter
+                gotoBlogRouter,navNum
             }
     }
 }
@@ -67,9 +97,9 @@ export default {
             <div></div>
         </div>
         <nav :class="{showNav:isMobileMenu}">
-            <div><a href="javascript:;" @click="gotoHomeRouter">作品</a></div>
-            <div><a href="javascript:;" @click="gotoAboutRouter">關於我</a></div>
-            <div><a href="javascript:;" @click="gotoBlogRouter">部落格</a></div>
+            <a href="javascript:;" @click="gotoHomeRouter" :class="{current:navNum === 0}">作品</a>
+            <a href="javascript:;" @click="gotoAboutRouter" :class="{current:navNum === 1}">關於我</a>
+            <a href="javascript:;" @click="gotoBlogRouter" :class="{current:navNum === 2}">部落格</a>
         </nav>
     </header>
 </template>
@@ -96,9 +126,13 @@ header{
             padding-top: 0;
             transition: 0.5s all;
         }
-        >div{
+        a{
             display: inline-block;
             margin-left: 40px;
+            letter-spacing: 2px;
+            color: $white;
+            font-size: 14px;
+            font-weight: 300;
             @include breakpoint(m1){
                 width: $full;
                 height: 50px;
@@ -107,15 +141,12 @@ header{
                 margin-left: 0;
                 background-color: rgba(255,255,255,0.1);
             }
-            a{
-                letter-spacing: 2px;
-                color: $white;
-                font-size: 14px;
-                font-weight: 300;
-                &:hover{
-                    text-decoration: underline;
-                }
+            &:hover{
+                text-decoration: underline;
             }
+        }
+        .current{
+            text-decoration: underline;
         }
     }
     .showNav{

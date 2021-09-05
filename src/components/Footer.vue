@@ -43,6 +43,9 @@ footer{
     }
     span{
         display: inline-block;
+        @include breakpoint(m){
+            line-height: 25px;
+        }
     }
     a{
         color: $white;

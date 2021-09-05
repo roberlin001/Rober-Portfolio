@@ -6,7 +6,6 @@ export default {
   setup(){
     const store = useStore();
     const tagParent = ref(null);
-    const classIdx = ref(0);
     const router = useRouter();
 
     const categoryArr = computed(()=>{
@@ -17,8 +16,12 @@ export default {
       return store.getters.categoryKind;
     });
 
+    const classIdx = computed(()=>{
+      return store.getters.classIdx;
+    });
+
     const handAll = (classNum)=>{
-      classIdx.value = classNum;
+      store.dispatch('classIdx',classNum);
       store.dispatch('categoryKind','');
       store.dispatch('handCategoryArr',categoryKind.value);
       router.push({path:`/blog`});
@@ -27,35 +30,35 @@ export default {
 
     const handKnowledge = (classNum)=>{
         router.push({path:"/blog"});
-        classIdx.value = classNum;
+        store.dispatch('classIdx',classNum);
         store.dispatch('categoryKind','網頁知識');
         store.dispatch('handCategoryArr',categoryKind.value);
     };
 
     const handShare = (classNum)=>{
       router.push({path:"/blog"});
-      classIdx.value = classNum;
+      store.dispatch('classIdx',classNum);
       store.dispatch('categoryKind','網頁技術分享');
       store.dispatch('handCategoryArr',categoryKind.value);
     }
 
     const handMovie = (classNum)=>{
       router.push({path:"/blog"});
-      classIdx.value = classNum;
+      store.dispatch('classIdx',classNum);
       store.dispatch('categoryKind','電影哈拉');
       store.dispatch('handCategoryArr',categoryKind.value);
     }
 
     const handNBA = (classNum)=>{
       router.push({path:'/blog'});
-      classIdx.value = classNum;
+      store.dispatch('classIdx',classNum);
       store.dispatch('categoryKind','NBA反指標');
       store.dispatch('handCategoryArr',categoryKind.value);
     }
 
     const handLife = (classNum)=>{
       router.push({path:'/blog'});
-      classIdx.value = classNum;
+      store.dispatch('classIdx',classNum);
       store.dispatch('categoryKind','生活來打屁');
       store.dispatch('handCategoryArr',categoryKind.value);
     }
@@ -83,8 +86,14 @@ export default {
 @import '~@/assets/scss/_mixins.scss';
 .leftNav{
   width:225px;
+  margin-left: 27px;
+  position: fixed;
+  z-index: 3;
+  padding-top: 20px;
   @include breakpoint(nb){
-    width:$full;
+    width:calc(100% - 60px);
+    margin-left: 30px;
+    position: relative;
   }
   h1{
     font-size: 30px;
@@ -127,6 +136,11 @@ export default {
     .current{
       text-decoration: underline;
       font-weight: 400;
+      @include breakpoint(nb){
+        background-color: $white;
+        color: $gray;
+        text-decoration: none;
+      }
     }
   }
 }
