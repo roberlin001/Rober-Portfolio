@@ -17,6 +17,8 @@ export default {
                 navNum.value = 1;
             }else if(routePath.path === '/blog' || routePath.path.includes('/article')){
                 navNum.value = 2;
+            }else if(routePath.path === '/connect'){
+                navNum.value = 3;
             }
         });
 
@@ -53,6 +55,16 @@ export default {
             };
         };
 
+        const gotoConnectRouter = ()=>{
+            store.dispatch('categoryKind','');
+            router.push({path:`/connect`});
+            store.dispatch('handIsAboutFalse');
+            store.dispatch('classIdx',0);
+            if(window.innerWidth < 600){
+                store.dispatch('handIsMenu');
+            };
+        };
+
         const gotoBlogRouter = ()=>{
             store.dispatch('categoryKind','');
             store.dispatch('handIsAboutFalse');
@@ -82,7 +94,9 @@ export default {
                 isAbout,
                 isMobileMenu,
                 handMobileMenu,
-                gotoBlogRouter,navNum
+                gotoBlogRouter,
+                navNum,
+                gotoConnectRouter
             }
     }
 }
@@ -100,6 +114,7 @@ export default {
             <a href="javascript:;" @click="gotoHomeRouter" :class="{current:navNum === 0}">作品</a>
             <a href="javascript:;" @click="gotoAboutRouter" :class="{current:navNum === 1}">關於我</a>
             <a href="javascript:;" @click="gotoBlogRouter" :class="{current:navNum === 2}">部落格</a>
+            <a href="javascript:;" @click="gotoConnectRouter" :class="{current:navNum === 3}">聯絡我</a>
         </nav>
     </header>
 </template>

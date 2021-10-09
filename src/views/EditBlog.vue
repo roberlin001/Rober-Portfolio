@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref } from '@vue/runtime-core';
+import { onMounted, reactive, ref } from '@vue/runtime-core';
 import { useEditor, EditorContent,FloatingMenu  } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align';
@@ -9,7 +9,8 @@ import Image from '@tiptap/extension-image';
 import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
 import Link from '@tiptap/extension-link'
-import Strike from '@tiptap/extension-strike'
+import Strike from '@tiptap/extension-strike';
+import axios from 'axios';
 
 export default {
     components: {
@@ -17,6 +18,24 @@ export default {
         FloatingMenu
     },
     setup(){
+
+        let fileUploadValue = reactive({});
+
+        const getFile = (e)=>{
+            fileUploadValue = e.target.files[0]
+        };
+
+        const fileUploadEvent = ()=>{
+            let formData = new FormData();
+            formData.append('photo',fileUploadValue)
+            axios.post('url',formData,{headers:{'Content-Type': 'multipart/form-data'}})
+            .then((res)=>{
+                console.log(res);
+            }).catch((error)=>{
+                console.log(error);
+            });
+        };
+
 
         const editor = useEditor({
             content: '<p>I’m running tiptap with Vue.js. 🎉</p>',
@@ -59,17 +78,15 @@ export default {
                 .run()
             
         };
-
-        onMounted(()=>{
-            console.log(editor);
-        })
         
 
         return {
             handCkData,
             editor,
             addImage,
-            setLink
+            setLink,
+            fileUploadEvent,
+            getFile
         }
     }
 }
@@ -115,8 +132,8 @@ export default {
           </tr>
           <tr>
               <td>
-                  <input type="file" class="fileUpload" name="" id="">
-                  <button>上傳圖片</button>
+                  <input type="file" id="fileUpload" class="fileUpload" name="" @change="getFile">
+                  <button @click="fileUploadEvent" id="fileButton">上傳圖片</button>
               </td>
           </tr>
           <tr>
