@@ -51,10 +51,9 @@ export default {
                     // editor.value.commands.setContent('qqq')
                     editor.value.commands.setContent(blogData.data.html)
                 });
+            }else{
+                blogData.data.kind='';
             }
-
-            
-
         });
 
 
@@ -149,12 +148,12 @@ export default {
           <tr>
               <td>
                   <select v-model="blogData.data.kind">
-                      <option>全部文章</option>
-                      <option>網頁知識</option>
-                      <option>網頁技術分享</option>
-                      <option>電影哈拉</option>
-                      <option>NBA反指標</option>
-                      <option>生活來打屁</option>
+                      <option value="" disabled>文章類型</option>
+                      <option value="網頁知識">網頁知識</option>
+                      <option value="網頁技術分享">網頁技術分享</option>
+                      <option value="電影哈拉">電影哈拉</option>
+                      <option value="NBA反指標">NBA反指標</option>
+                      <option value="生活來打屁">生活來打屁</option>
                   </select>
               </td>
           </tr>

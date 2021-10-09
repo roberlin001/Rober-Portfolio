@@ -100,8 +100,10 @@ export default {
         .ckEditor{
             font-size: 18px;
             letter-spacing: 1px;
-            color: $white;
             font-weight: 100;
+            /deep/ *{
+                color: $white;
+            }
             :deep(img){
                 width: $full;
             }
