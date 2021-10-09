@@ -25,6 +25,7 @@ export default {
         const blogData = reactive({data:{}})
         const route = useRoute();
         const router = useRouter();
+        const id=route.params.id;
         let editor = ref(useEditor({
                 content: '',
                 extensions: [
@@ -43,13 +44,14 @@ export default {
             }))
 
         onMounted(()=>{
-            const id=route.params.id;
-            axios(`http://localhost:3000/datas/${id}`)
-            .then((res)=>{
-                blogData.data = res.data;
-                // editor.value.commands.setContent('qqq')
-                editor.value.commands.setContent(blogData.data.html)
-            });
+            if(id!=='0'){
+                axios(`http://localhost:3000/datas/${id}`)
+                .then((res)=>{
+                    blogData.data = res.data;
+                    // editor.value.commands.setContent('qqq')
+                    editor.value.commands.setContent(blogData.data.html)
+                });
+            }
 
             
 
@@ -74,16 +76,22 @@ export default {
         const handCkData = ()=>{
             // console.log(editor.value.options.content);
             blogData.data.html = editor.value.getHTML()
-
-            const id=route.params.id;
-
-            console.log(blogData.data);
-            axios.put(`http://localhost:3000/datas/${id}`,blogData.data,{headers:{'Content-Type': 'application/json'}})
-            .then((res)=>{
-                console.log(res);
-            }).catch((err)=>{
-                console.log(err);
-            })
+            if(id!=='0'){
+                axios.put(`http://localhost:3000/datas/${id}`,blogData.data,{headers:{'Content-Type': 'application/json'}})
+                .then((res)=>{
+                    console.log(res);
+                }).catch((err)=>{
+                    console.log(err);
+                })
+            }else{
+                axios.post(`http://localhost:3000/datas/`,blogData.data,{headers:{'Content-Type': 'application/json'}})
+                .then((res)=>{
+                    console.log(res);
+                }).catch((err)=>{
+                    console.log(err);
+                })
+            }
+            
         };
 
         const addImage = ()=>{
