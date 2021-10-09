@@ -30,7 +30,7 @@ export default {
                     </li>
                     <li>
                         前端工具<br>
-                        Visual Studio Code、HTML、CSS、SCSS、Javascript、jQuery、Git
+                        Visual Studio Code、HTML、CSS、SCSS、Javascript、jQuery、Vue.js、Git
                     </li>
                 </ul>
             </div>
