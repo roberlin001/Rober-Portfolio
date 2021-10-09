@@ -98,9 +98,11 @@ export default {
             font-weight: 300;
         }
         .ckEditor{
-            font-size: 18px;
-            letter-spacing: 1px;
+            font-size: 17px;
+            letter-spacing: 2px;
             font-weight: 100;
+            line-height: 1.6;
+            color: $white;
             /deep/ *{
                 color: $white;
             }

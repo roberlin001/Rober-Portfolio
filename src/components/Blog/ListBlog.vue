@@ -55,7 +55,7 @@ export default {
     <a href="#" class="addBtn" @click="addArticleId">新增</a>
     <div class="article">
       <div v-for="item in categoryArr" @click.stop="linkArticleid(item.id)" :key="item.id"  class="list">
-        <div class="time">{{item.time}}</div>
+        <div class="time">{{item.time.replace(/-/g,'.')}}</div>
         <div class="info">
           <div class="title">{{item.title}}</div>
           <div class="smallTitle">{{item.sub_title}}</div>
@@ -80,13 +80,13 @@ export default {
     background-color: $white;
     display: block;
     float: right;
-    width: 115px;
-    height: 46px;
+    width: 85px;
+    height: 30px;
     border-radius: 3px;
     margin-bottom: 15px;
     text-align: center;
-    font-size: 22px;
-    line-height: 46px;
+    font-size: 16px;
+    line-height: 30px;
   }
   .article{
     clear: both;
@@ -136,12 +136,13 @@ export default {
           font-weight: 100;
           font-size: 16px;
           color: $white;
-          letter-spacing: 1px;
+          letter-spacing: 2px;
         }
       }
       .editCon{
         width:105px;
         margin-left: 20px;
+        text-align: right;
         @include breakpoint(nb){
           width:$full;
           margin-left: 0;
@@ -158,6 +159,7 @@ export default {
           text-align: center;
           margin: 0 2px;
           border-radius: 2px;
+          margin-left: 10px;
         }
         .delete{
           background-color: red;
