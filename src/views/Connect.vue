@@ -31,7 +31,7 @@ export default {
             }
 
             axios.post(
-                'url',
+                'https://robertest-pdsp7bsvbq-de.a.run.app/api/mail',
                 emailData,
                 {
                     headers:{'Content-Type': 'application/json'}

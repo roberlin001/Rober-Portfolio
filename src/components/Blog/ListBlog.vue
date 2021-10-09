@@ -2,6 +2,7 @@
 import { computed, onMounted } from '@vue/runtime-core';
 import {useStore} from 'vuex';
 import {useRouter} from 'vue-router';
+import axios from 'axios';
 export default {
   setup(){
     const store = useStore();
@@ -30,7 +31,20 @@ export default {
       router.push({path:`/blog/article/${id}`})
     };
 
-    return {categoryArr,linkArticleid}
+    const editArticleId = (id)=>{
+      router.push({path:`/editBlog/${id}`})
+    }
+
+
+    const addArticleId = ()=>{
+      router.push({path:`/editBlog/0`})
+    }
+
+    const deleteArticleId = (id)=>{
+      axios.delete(`http://localhost:3000/datas/${id}`)
+    }
+
+    return {categoryArr,linkArticleid,editArticleId,deleteArticleId,addArticleId}
   }
 }
 </script>
@@ -38,18 +52,17 @@ export default {
 <template>
 
   <div class="listContainer">
-    <a href="#" class="addBtn" style="display:none;">新增</a>
+    <a href="#" class="addBtn" @click="addArticleId">新增</a>
     <div class="article">
-      <div v-for="item in categoryArr" @click="linkArticleid(item.id)" :key="item.id"  class="list">
+      <div v-for="item in categoryArr" @click.stop="linkArticleid(item.id)" :key="item.id"  class="list">
         <div class="time">{{item.time}}</div>
         <div class="info">
           <div class="title">{{item.title}}</div>
           <div class="smallTitle">{{item.sub_title}}</div>
         </div>
-        <div class="editCon" style="display:none;">
-          <a class="edit" href="javascript:;">編</a>
-          <a class="push pushClose" href="javascript:;">發</a>
-          <a class="delete" href="javascript:;">刪</a>
+        <div class="editCon">
+          <a class="edit" @click.stop="editArticleId(item.id)" href="javascript:;">編</a>
+          <a class="delete" @click.stop="deleteArticleId(item.id)" href="javascript:;">刪</a>
         </div>
       </div>
     </div>

@@ -44,7 +44,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/editBlog',
+    path: '/editBlog/:id',
     name: 'EditBlog',
     component: EditBlog
   },

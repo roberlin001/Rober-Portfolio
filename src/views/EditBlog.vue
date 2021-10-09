@@ -1,6 +1,7 @@
 <script>
-import { onMounted, reactive, ref } from '@vue/runtime-core';
+import { onMounted, reactive, ref, watch } from '@vue/runtime-core';
 import { useEditor, EditorContent,FloatingMenu  } from '@tiptap/vue-3'
+import {useRoute,useRouter} from 'vue-router';
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
@@ -17,9 +18,43 @@ export default {
         EditorContent,
         FloatingMenu
     },
+    
     setup(){
 
         let fileUploadValue = reactive({});
+        const blogData = reactive({data:{}})
+        const route = useRoute();
+        const router = useRouter();
+        let editor = ref(useEditor({
+                content: '',
+                extensions: [
+                    StarterKit,
+                    TextStyle,
+                    Color,
+                    Image,
+                    Bold,
+                    Link,
+                    Italic,
+                    Strike,
+                    TextAlign.configure({
+                        types: ['heading', 'paragraph'],
+                    }),
+                ],
+            }))
+
+        onMounted(()=>{
+            const id=route.params.id;
+            axios(`http://localhost:3000/datas/${id}`)
+            .then((res)=>{
+                blogData.data = res.data;
+                // editor.value.commands.setContent('qqq')
+                editor.value.commands.setContent(blogData.data.html)
+            });
+
+            
+
+        });
+
 
         const getFile = (e)=>{
             fileUploadValue = e.target.files[0]
@@ -28,7 +63,7 @@ export default {
         const fileUploadEvent = ()=>{
             let formData = new FormData();
             formData.append('photo',fileUploadValue)
-            axios.post('url',formData,{headers:{'Content-Type': 'multipart/form-data'}})
+            axios.post('https://robertest-pdsp7bsvbq-de.a.run.app/api/upload/image',formData,{headers:{'Content-Type': 'multipart/form-data'}})
             .then((res)=>{
                 console.log(res);
             }).catch((error)=>{
@@ -36,27 +71,19 @@ export default {
             });
         };
 
-
-        const editor = useEditor({
-            content: '<p>I’m running tiptap with Vue.js. 🎉</p>',
-            extensions: [
-                StarterKit,
-                TextStyle,
-                Color,
-                Image,
-                Bold,
-                Link,
-                Italic,
-                Strike,
-                TextAlign.configure({
-                    types: ['heading', 'paragraph'],
-                }),
-            ],
-        })
-
         const handCkData = ()=>{
             // console.log(editor.value.options.content);
-            console.log(editor.value.getHTML());
+            blogData.data.html = editor.value.getHTML()
+
+            const id=route.params.id;
+
+            console.log(blogData.data);
+            axios.put(`http://localhost:3000/datas/${id}`,blogData.data,{headers:{'Content-Type': 'application/json'}})
+            .then((res)=>{
+                console.log(res);
+            }).catch((err)=>{
+                console.log(err);
+            })
         };
 
         const addImage = ()=>{
@@ -78,6 +105,10 @@ export default {
                 .run()
             
         };
+
+        const backPage = ()=>{
+            router.go(-1)
+        };
         
 
         return {
@@ -86,7 +117,9 @@ export default {
             addImage,
             setLink,
             fileUploadEvent,
-            getFile
+            getFile,
+            backPage,
+            blogData
         }
     }
 }
@@ -97,17 +130,17 @@ export default {
       <table>
           <tr>
               <td>
-                  <input class="textInput" type="text" placeholder="請輸入標題">
+                  <input v-model="blogData.data.title" class="textInput" type="text" placeholder="請輸入標題">
               </td>
           </tr>
           <tr>
               <td>
-                  <input class="textInput" type="text" placeholder="描述">
+                  <input v-model="blogData.data.sub_title" class="textInput" type="text" placeholder="描述">
               </td>
           </tr>
           <tr>
               <td>
-                  <select>
+                  <select v-model="blogData.data.kind">
                       <option>全部文章</option>
                       <option>網頁知識</option>
                       <option>網頁技術分享</option>
@@ -119,15 +152,7 @@ export default {
           </tr>
           <tr>
               <td>
-                  <input class="textInput" type="date">
-              </td>
-          </tr>
-          <tr>
-              <td>
-                  <ul>
-                      <li><input name="001" id="r1" type="radio"><label for="r1">發佈</label></li>
-                      <li><input name="001" id="r2" type="radio"><label for="r2">不發佈</label></li>
-                  </ul>
+                  <input v-model="blogData.data.time" class="textInput" type="date">
               </td>
           </tr>
           <tr>
@@ -173,7 +198,7 @@ export default {
           <tr>
               <td>
                   <a href="#" class="btn send" @click="handCkData">送出</a>
-                  <a href="#" class="btn back">返回</a>
+                  <a href="#" class="btn back" @click="backPage">返回</a>
               </td>
           </tr>
       </table>

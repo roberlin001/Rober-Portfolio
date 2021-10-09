@@ -11,7 +11,6 @@ export default {
 
         const blogData = computed(()=>{
             return store.getters.blogData;
-            console.log(store.getters.blogData);
         });
 
         const backPage = ()=>{
