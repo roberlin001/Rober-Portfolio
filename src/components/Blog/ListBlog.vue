@@ -55,7 +55,7 @@ export default {
     <a href="#" class="addBtn" @click="addArticleId">新增</a>
     <div class="article">
       <div v-for="item in categoryArr" @click.stop="linkArticleid(item.id)" :key="item.id"  class="list">
-        <div class="time">{{item.time.replace(/-/g,'.')}}</div>
+        <div class="time">{{item.time}}</div>
         <div class="info">
           <div class="title">{{item.title}}</div>
           <div class="smallTitle">{{item.sub_title}}</div>
