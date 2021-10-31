@@ -15,6 +15,10 @@ export default {
     const categoryKind = computed(()=>{
       return store.getters.categoryKind;
     });
+
+    const loginState = computed(()=>{
+          return store.getters.loginState;
+      });
     
 
     const blogList = ()=>{
@@ -41,10 +45,12 @@ export default {
     }
 
     const deleteArticleId = (id)=>{
-      axios.delete(`http://localhost:3000/datas/${id}`)
+      axios.delete(`${process.env.VUE_APP_BLOG_API}${id}`,{headers:{'article':'cm9iZXJsaW40NA=='}}).then((res)=>{
+        history.go(0);
+      });
     }
 
-    return {categoryArr,linkArticleid,editArticleId,deleteArticleId,addArticleId}
+    return {categoryArr,linkArticleid,editArticleId,deleteArticleId,addArticleId,loginState}
   }
 }
 </script>
@@ -52,17 +58,17 @@ export default {
 <template>
 
   <div class="listContainer">
-    <a href="#" class="addBtn" @click="addArticleId">新增</a>
+    <a href="#" class="addBtn" v-if="loginState" @click="addArticleId">新增</a>
     <div class="article">
       <div v-for="item in categoryArr" @click.stop="linkArticleid(item.id)" :key="item.id"  class="list">
-        <div class="time">{{item.time}}</div>
+        <div class="time">{{item.createtime}}</div>
         <div class="info">
           <div class="title">{{item.title}}</div>
-          <div class="smallTitle">{{item.sub_title}}</div>
+          <div class="smallTitle">{{item.subtitle}}</div>
         </div>
         <div class="editCon">
-          <a class="edit" @click.stop="editArticleId(item.id)" href="javascript:;">編</a>
-          <a class="delete" @click.stop="deleteArticleId(item.id)" href="javascript:;">刪</a>
+          <a class="edit" v-if="loginState" @click.stop="editArticleId(item.id)" href="javascript:;">編</a>
+          <a class="delete" v-if="loginState" @click.stop="deleteArticleId(item.id)" href="javascript:;">刪</a>
         </div>
       </div>
     </div>

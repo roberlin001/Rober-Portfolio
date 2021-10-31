@@ -1,6 +1,33 @@
 <script>
+import {useStore} from 'vuex';
+import { computed, reactive } from '@vue/reactivity';
+import {useRouter} from 'vue-router';
+import axios from 'axios';
+import Cookies from 'js-cookie'
+import { onMounted } from '@vue/runtime-core';
 export default {
+    setup(){
+        const store = useStore();
+        const router = useRouter();
+        const userInfo = reactive({name:'',password:''})
+        const loginEvent = ()=>{
+            store.dispatch('handLogin',userInfo).then((res)=>{
+                router.push({path:'/'})
+            })
+        };
 
+        const loginState = computed(()=>{
+            return store.getters.loginState;
+        });
+
+        onMounted(()=>{
+            if(Cookies.get('login')){
+                store.dispatch('handIsLogin',true)
+            }
+        })
+
+        return{userInfo,loginEvent,loginState};
+    }
 }
 </script>
 
@@ -10,17 +37,17 @@ export default {
       <table class="form">
         <tr>
             <td>
-                <input type="text" placeholder="帳號">
+                <input type="text" v-model="userInfo.name" placeholder="帳號">
             </td>
         </tr>
         <tr>
             <td>
-                <input type="password" placeholder="密碼">
+                <input type="password" v-model="userInfo.password" placeholder="密碼">
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">登入</a>
+                <a v-if="!loginState" href="#" @click="loginEvent">登入</a>
             </td>
         </tr>
       </table>

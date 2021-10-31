@@ -43,7 +43,7 @@ export default {
 <template>
     <div class="blogInner">
         <div class="info">
-            <div class="time">{{blogData.time}}</div>
+            <div class="time">{{blogData.createtime}}</div>
             <div class="kind">{{blogData.kind}}</div>
         </div>
         <div class="title">{{blogData.title}}</div>

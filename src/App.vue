@@ -2,6 +2,7 @@
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 import FadeBg from '@/components/FadeBg.vue';
+import { onBeforeMount, onMounted } from '@vue/runtime-core';
 export default {
   components:{
     Header,

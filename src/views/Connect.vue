@@ -1,6 +1,7 @@
 <script>
 import LeftNav from '@/components/Blog/LeftNav.vue';
 import { reactive } from '@vue/reactivity';
+import {useRouter} from "vue-router";
 import axios from "axios";
 export default {
     components:{
@@ -9,10 +10,11 @@ export default {
     setup(){
         const emailData = reactive({
             name:'',
-            mail:'',
+            email:'',
             phone:'',
-            msg:''
+            message:''
         })
+        const router = useRouter();
 
         const sendMailEvent = (e)=>{
             e.preventDefault();
@@ -22,23 +24,25 @@ export default {
             }else if(emailData.phone === '' || parseInt(emailData.phone).toString() == 'NaN'){
                 alert('電話格式有誤');
                 return
-            }else if(emailData.mail === ''){
+            }else if(emailData.email === ''){
                 alert('E-mail格式有誤');
                 return
-            }else if(emailData.msg === ''){
+            }else if(emailData.message === ''){
                 alert('訊息是空的');
                 return
             }
-
             axios.post(
-                'https://robertest-pdsp7bsvbq-de.a.run.app/api/mail',
-                emailData,
+                `${process.env.VUE_APP_MAIL_API}`,
+                JSON.stringify(emailData),
                 {
                     headers:{'Content-Type': 'application/json'}
                 }).then((res)=>{
                     console.log(res);
+                    alert('訊息已送出');
+                    router.push({path:`/`});
                 }).catch((err)=>{
                     console.log(err);
+                    alert('訊息不對唷')
                 })
 
         }
@@ -55,14 +59,14 @@ export default {
               <td><input v-model="emailData.name" type="text" placeholder="姓名"></td>
           </tr>
           <tr>
-              <td><input v-model.number="emailData.phone" type="tel" placeholder="電話"></td>
+              <td><input v-model="emailData.phone" type="tel" placeholder="電話"></td>
           </tr>
           <tr>
-              <td><input v-model="emailData.mail" type="mail" placeholder="電子信箱"></td>
+              <td><input v-model="emailData.email" type="mail" placeholder="電子信箱"></td>
           </tr>
           <tr>
               <td>
-                  <textarea v-model="emailData.msg" placeholder="您的訊息"></textarea>
+                  <textarea v-model="emailData.message" placeholder="您的訊息"></textarea>
               </td>
           </tr>
           <tr>

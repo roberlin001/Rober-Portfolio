@@ -1,7 +1,8 @@
 <script>
-import { onMounted, reactive, ref, watch } from '@vue/runtime-core';
+import { onMounted,computed, reactive, ref, watch } from '@vue/runtime-core';
 import { useEditor, EditorContent,FloatingMenu  } from '@tiptap/vue-3'
 import {useRoute,useRouter} from 'vue-router';
+import {useStore} from 'vuex';
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
@@ -25,6 +26,7 @@ export default {
         const blogData = reactive({data:{}})
         const route = useRoute();
         const router = useRouter();
+        const store = useStore();
         const id=route.params.id;
         let editor = ref(useEditor({
                 content: '',
@@ -43,11 +45,18 @@ export default {
                 ],
             }))
 
+        const loginState = computed(()=>{
+            return store.getters.loginState;
+        });
+
         onMounted(()=>{
+            if(loginState.value === false){
+                router.push({path:'/'})
+            }
             if(id!=='0'){
-                axios(`http://localhost:3000/datas/${id}`)
+                axios(`${process.env.VUE_APP_BLOG_API}${id}`)
                 .then((res)=>{
-                    blogData.data = res.data;
+                    blogData.data = res.data.datas;
                     // editor.value.commands.setContent('qqq')
                     editor.value.commands.setContent(blogData.data.html)
                 });
@@ -63,10 +72,11 @@ export default {
 
         const fileUploadEvent = ()=>{
             let formData = new FormData();
-            formData.append('photo',fileUploadValue)
-            axios.post('https://robertest-pdsp7bsvbq-de.a.run.app/api/upload/image',formData,{headers:{'Content-Type': 'multipart/form-data'}})
+            formData.append('file',fileUploadValue)
+            
+            axios.post(`${process.env.VUE_APP_IMAGE_API}`,formData,{headers:{'Content-Type': 'multipart/form-data'}})
             .then((res)=>{
-                console.log(res);
+                console.log(res.data);
             }).catch((error)=>{
                 console.log(error);
             });
@@ -76,16 +86,23 @@ export default {
             // console.log(editor.value.options.content);
             blogData.data.html = editor.value.getHTML()
             if(id!=='0'){
-                axios.put(`http://localhost:3000/datas/${id}`,blogData.data,{headers:{'Content-Type': 'application/json'}})
+                axios.post(`${process.env.VUE_APP_BLOG_API}${id}`,JSON.stringify(blogData.data),{headers:{'Content-Type': 'application/json','article':'cm9iZXJsaW40NA=='}})
                 .then((res)=>{
                     console.log(res);
+                    router.push({path:`/blog`});
                 }).catch((err)=>{
                     console.log(err);
                 })
             }else{
-                axios.post(`http://localhost:3000/datas/`,blogData.data,{headers:{'Content-Type': 'application/json'}})
+                // console.log(`${process.env.VUE_APP_BLOG_API}${id}`);
+                console.log(JSON.stringify(blogData.data));
+                axios.post(`${process.env.VUE_APP_BLOG_API}${id}`,JSON.stringify(blogData.data),{headers:{
+                    'Content-Type': 'application/json',
+                    'article':'cm9iZXJsaW40NA=='
+                    }})
                 .then((res)=>{
                     console.log(res);
+                    router.push({path:`/blog`});
                 }).catch((err)=>{
                     console.log(err);
                 })
@@ -142,7 +159,7 @@ export default {
           </tr>
           <tr>
               <td>
-                  <input v-model="blogData.data.sub_title" class="textInput" type="text" placeholder="描述">
+                  <input v-model="blogData.data.subtitle" class="textInput" type="text" placeholder="描述">
               </td>
           </tr>
           <tr>
@@ -159,7 +176,7 @@ export default {
           </tr>
           <tr>
               <td>
-                  <input v-model="blogData.data.time" class="textInput" type="date">
+                  <input v-model="blogData.data.createtime" class="textInput" type="date">
               </td>
           </tr>
           <tr>
