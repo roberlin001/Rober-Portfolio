@@ -3,6 +3,7 @@ import { computed, onMounted } from '@vue/runtime-core';
 import {useStore} from 'vuex';
 import {useRouter} from 'vue-router';
 import axios from 'axios';
+import Cookies from 'js-cookie'
 export default {
   setup(){
     const store = useStore();
@@ -29,6 +30,9 @@ export default {
 
     onMounted(()=>{
       blogList();
+      if(Cookies.get('login')){
+          store.dispatch('handIsLogin',true)
+      }
     });
 
     const linkArticleid = (id)=>{
@@ -46,7 +50,7 @@ export default {
 
     const deleteArticleId = (id)=>{
       axios.delete(`${process.env.VUE_APP_BLOG_API}${id}`,{headers:{'article':'cm9iZXJsaW40NA=='}}).then((res)=>{
-        history.go(0);
+        router.push({path:`/`})
       });
     }
 
