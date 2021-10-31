@@ -25,6 +25,7 @@ export default {
     padding:30px 30px 60px 30px;
     position: relative;
     z-index: 3;
+    min-height: 80vh;
     margin: 0 auto;
     @include breakpoint(m){
       padding:0 30px 60px 30px;
