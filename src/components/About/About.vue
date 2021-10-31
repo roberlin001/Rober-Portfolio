@@ -75,6 +75,9 @@ export default {
             width: $full;
             padding-bottom: 10px;
             border-bottom: 1px solid $white;
+            @include breakpoint(m1){
+                font-size: 30px;
+            }
         }
         .bb{
             padding-top: 50px;
@@ -92,6 +95,9 @@ export default {
                 font-size: 30px;
                 letter-spacing: 1px;
                 padding-bottom: 10px;
+                @include breakpoint(m1){
+                    font-size: 25px;
+                }
             }
             .smallTxt{
                 li{
