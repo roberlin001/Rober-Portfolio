@@ -166,7 +166,7 @@ header{
     }
     .showNav{
         @include breakpoint(m1){
-            height: 100px;
+            height: 200px;
             padding-top: 30px;
         }
     }
