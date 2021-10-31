@@ -91,8 +91,8 @@ export default {
       margin: 0 auto;
       padding-bottom: 100px;
       padding-top: 100px;
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: 30px;
+      padding-right: 30px;
       @include breakpoint(m1){
           padding-top: 0;
           padding-bottom: 50px;
