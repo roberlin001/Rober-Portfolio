@@ -106,7 +106,8 @@ export default {
           text-indent: 3px;
           height: 45px;
           line-height: 45px;
-          background-color: $white;
+          border: 1px solid $white;
+          color: $white;
           &:hover{
               opacity: 0.8;
           }
@@ -115,20 +116,24 @@ export default {
           width:$full;
           tr{
               td{
-                padding-bottom: 20px;
+                padding-bottom: 30px;
                 input,textarea{
                     width: $full;
-                    border-radius: 3px;
                     padding: 0 7px;
-                    background-color: #eee;
+                    background:none ;
+                    border-bottom: 1px solid $white;
                 }
                 input{
-                    height: 50px;
-                    color: $black;
+                    height: 40px;
+                    color: $white;
                 }
                 textarea{
                     padding: 7px;
                     height: 200px;
+                    color: $white;
+                }
+                input::placeholder,textarea::placeholder{
+                    color: $white;
                 }
               }
           }
