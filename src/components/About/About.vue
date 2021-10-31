@@ -92,12 +92,9 @@ export default {
                 margin-right: 40px;
                 font-weight: 400;
                 color: $white;
-                font-size: 30px;
+                font-size: 25px;
                 letter-spacing: 1px;
                 padding-bottom: 10px;
-                @include breakpoint(m1){
-                    font-size: 25px;
-                }
             }
             .smallTxt{
                 li{
