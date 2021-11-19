@@ -7,7 +7,7 @@ export default{
     },
     actions:{
         handInit({commit}){
-            return axios.get(window.location.href+'api/portfolio.json')
+            return axios.get(`${process.env.VUE_APP_CROS}${window.location.host}/api/portfolio.json`)
             .then((res)=>{
                 commit('init',res.data);
                 return res.data.portfolio;
